@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Investment Results</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    
+    <style>
+        .result-box {
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+        .colored-background {
+            background-color: #ccf1fc; /* Apply blue background only to specific areas */
+            background-image: url("pic/small\ box.png");
+            background-repeat: no-repeat;
+            background-position: center;
+            color: rgb(34, 28, 84);
+            font-size: large;
+            font-weight: bold;
+        }
+        body{
+            background-image: url("pic/lower.png"),url("pic/cookie.png");
+            background-repeat: no-repeat,no-repeat;
+            background-position: bottom center,top left;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="result-box colored-background">
+            <h2>Investment Results</h2>
+            <p>Investment Amount: <span id="investmentAmount"></span> €</p>
+            <p>Distribution Frequency: <span id="distributionFrequency"></span></p>
+            <p>ROI:<span id="ROI"></span> Monate</p>
+            <p>Profit Share: <span id="profitShare"></span> %</p>
+            <p>Net Earnings: <span id="netEarnings"></span> €</p>
+        </div>
+        
+        <div class="result-box">
+            <h3>Nettogewinndiagramm:</h3>
+            <canvas id="netProfitChart"></canvas>
+        </div>
+        
+        <div class="result-box">
+            <h3>Jährliches Wachstum:</h3>
+            <table id="growthPercentageTable" class="table mt-4">
+                <thead>
+                    <tr>
+                        <th scope="col">Jahre</th>
+                        <th scope="col">jährliches Wachstum in Prozent</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Table rows will be added dynamically through JavaScript -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Extract URL parameters
+        var urlParams = new URLSearchParams(window.location.search);
+        var investmentAmount = parseFloat(urlParams.get('investmentAmount'));
+        var distributionFrequency = urlParams.get('distributionFrequency');
+        var grossEarnings = parseFloat(urlParams.get('grossEarnings'));
+        var profitShare = parseFloat(urlParams.get('profitShare'));
+        var netEarnings = parseFloat(urlParams.get('netEarnings'));
+        var ROI = (investmentAmount/grossEarnings);
+
+        // Display results
+        document.getElementById("investmentAmount").textContent = investmentAmount.toLocaleString('de-DE');
+        document.getElementById("distributionFrequency").textContent = distributionFrequency;
+        document.getElementById("profitShare").textContent = profitShare.toFixed(2).replace(".", ",");
+        document.getElementById("netEarnings").textContent = netEarnings.toFixed(2).replace(".", ",");
+         document.getElementById("ROI").textContent = ROI.toFixed(2).replace(".", ",");
+        // Parse earnings data
+        var yearlyNetEarnings = grossEarnings * 12;
+        var netEarningsArray = [];
+        for (let i = 1; i <= 10; i++) {
+            netEarningsArray.push(yearlyNetEarnings * i);
+        }
+
+        // Define an array of colors for the columns
+        var columnColors = [
+            'rgba(255, 99, 132, 0.2)',
+            'rgba(54, 162, 235, 0.2)',
+            'rgba(255, 206, 86, 0.2)',
+            'rgba(75, 192, 192, 0.2)',
+            'rgba(153, 102, 255, 0.2)',
+            'rgba(255, 159, 64, 0.2)',
+            'rgba(199, 199, 199, 0.2)',
+            'rgba(83, 109, 254, 0.2)',
+            'rgba(40, 167, 69, 0.2)',
+            'rgba(215, 204, 200, 0.2)'
+        ];
+
+        // Render the chart
+        var ctx = document.getElementById("netProfitChart").getContext("2d");
+        new Chart(ctx, {
+            type: "bar",
+            data: {
+                labels: Array.from({ length: 10 }, (_, i) => (i + 1) + " Jahre"),
+                datasets: [{
+                    label: "Nettoeinnahmen (€)",
+                    data: netEarningsArray,
+                    backgroundColor: columnColors,
+                    borderColor: "rgba(75, 192, 192, 1)",
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: value => value.toLocaleString('de-DE') + "€"
+                        }
+                    }
+                },
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: context => {
+                                let label = context.dataset.label || '';
+                                if (label) {
+                                    label += ': ';
+                                }
+                                if (context.parsed.y !== null) {
+                                    label += context.parsed.y.toLocaleString('de-DE') + '€';
+                                }
+                                return label;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Calculate growth percentages and update table
+        const growthTableBody = document.getElementById("growthPercentageTable").getElementsByTagName("tbody")[0];
+        growthTableBody.innerHTML = ""; // Clear previous content
+
+        for (let i = 0; i < netEarningsArray.length; i++) {
+            const newRow = document.createElement("tr");
+            const periodCell = document.createElement("td");
+            const growthRateCell = document.createElement("td");
+
+            periodCell.textContent = (i + 1).toString(); // Adjust period to start from 1 instead of 0
+            const growth = Math.pow(netEarningsArray[i] / investmentAmount, 1 / (i + 1)) - 1; // Calculate growth rate
+            const growthPercentage = (growth * 100).toFixed(2);
+            growthRateCell.textContent = growthPercentage.replace(".", ",") + "%"; // Display growth rate as positive value with comma as decimal separator
+
+            newRow.appendChild(periodCell);
+            newRow.appendChild(growthRateCell);
+
+            growthTableBody.appendChild(newRow);
+        }
+    </script>
+</body>
+<style>
+    
+</style>
+</html>

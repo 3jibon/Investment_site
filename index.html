@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Investition in den Pizzamat</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            background-image: url(pic/IMG_5068.PNG);
+            /* Replace with the actual path to your background image */
+            /* Add any other background styles you want */
+            background-repeat: no-repeat;
+            background-color: #A4D8E9;
+        }
+
+        .footer {
+            background-color: #343a40;
+            color: white;
+        }
+
+        .social-media a {
+            margin: 0 10px;
+            color: white; /* Change social media link color to white */
+            text-decoration: none;
+        }
+
+        .social-media a:hover {
+            color: #00aced; /* Change color on hover for better user experience */
+        }
+
+        .email {
+            color: red; /* Change the color of the email id */
+        }
+
+        .cookie-icon {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 50px; /* Adjust the size as needed */
+            height: 50px; /* Adjust the size as needed */
+            background-color: #ffffff;
+            border-radius: 50%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            z-index: 1000; /* Ensure it appears above other elements */
+        }
+
+        .cookie-icon-img {
+            width: 80%; /* Adjust the size of the icon inside the circle */
+            height: 80%; /* Adjust the size of the icon inside the circle */
+        }
+
+        /* Cookie Consent Popup Styles */
+        .wrapper {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            text-align: center;
+        }
+
+        .buttons {
+            margin-top: 20px;
+        }
+
+        .button {
+            padding: 10px 20px;
+            margin: 0 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .button:hover {
+            background-color: #f0f0f0;
+        }
+
+        /* Blur Effect */
+        .blur {
+            filter: blur(5px);
+        }
+    </style>
+</head>
+
+    <!-- Boxicons CSS -->
+
+<!-- Popup Cookie Consent Box -->
+<div id="cookie-consent-popup" class="wrapper">
+    <header>
+        <i class="bx bx-cookie"></i>
+        <h2>Cookies Consent</h2>
+    </header>
+
+    <div class="data">
+        <p>We use cookies to enable you to navigate efficiently and to perform certain functions.<br>Detailed information about all cookies can be found in the individual consent<br>categories below.
+
+The cookies categorized as necessary are stored on your browser<br>as they are essential for the working of basic functionalities of the website.
+
+We also use third-party cookies to help us analyze<br>how you use this website, remember your preferences and deliver<br>content and advertising that is relevant to you.<br>These cookies are only stored in your browser with your prior consent.
+
+You can enable or disable some or all of these cookies.<br>However, disabling some of them may impact your browsing experience.</p>
+    </div>
+
+    <div class="buttons">
+        <button class="button" id="acceptBtn">Accept</button>
+        <button class="button" id="declineBtn">Decline</button>
+    </div>
+</div>
+
+<!-- Header Section -->
+<header class="d-flex justify-content-center align-items-center">
+    <a href="https://der-pizzamat.com/" class="header-logo-link">
+        <img src="pic/logo.png" alt="Logo" class="header-logo">
+    </a>
+    <div class="header-content ml-3">
+        <h1>Investieren Sie in den Pizzamat</h1>
+        <p>Profitieren Sie von passivem Einkommen durch eine Gewinnbeteiligung am Pizzamat.</p>
+    </div>
+
+</header>
+
+<!-- Main Content -->
+<main class="container my-5" id="main-content">
+    <div class="row">
+        <div class="col-md-6">
+            <!-- Earnings Calculator Section -->
+            <section>
+                <h2 class="text-center">Berechnen Sie Ihre Einnahmen</h2>
+                <form id="investmentForm" class="mx-auto w-50">
+                    <class="form-group">
+                        <label for="investmentAmount">Investitionsbetrag (€):</label>
+                        <input type="number" id="investmentAmount" name="investmentAmount" class="form-control" min="6000" step="100" required>
+                                        <div class="form-group">
+                        <label for="distributionFrequency">Ausschüttungsfrequenz:</label>
+                        <select id="distributionFrequency" name="distributionFrequency" class="form-control" required>
+                            <option value="monthly">Monatlich</option>
+                            <option value="quarterly">Quartalweise</option>
+                            <option value="yearly">Jährlich</option>
+                        </select>
+                    </div>
+                    <button type="button" class="btn btn-primary btn-block" onclick="calculateEarnings()">Berechnen</button>
+                </form>
+            </section>
+        </div>
+    </div>
+</main>
+
+<div>
+    <img src="pic/background.png" alt="background img">
+</div>
+
+<div class="container">
+    <h2>Get in touch</h2>
+    <p class="mm">
+        Egal, ob Sie Fragen zu einer Investition in der-pizzamat oder zu unserem Unternehmen haben, schreiben Sie uns einfach.
+    </p>
+    <form class="contact-form">
+        <div class="input-area">
+            <input type="text" placeholder="Your name"/>
+        </div>
+        <div class="input-area">
+            <input type="email" placeholder="Email address" class="email" /> <!-- Added "email" class to style email address -->
+        </div>
+        <div class="input-area">
+            <input type="text" placeholder="Subject">
+        </div>
+        <div class="input-area h-80">
+            <textarea placeholder="Your message"></textarea>
+        </div>
+        <button class="sendbtn">Send</button>
+    </form>
+</div>
+
+<div class="details">
+    <h2>Details zur Investition</h2>
+    <p class="sm">
+        <i>Für eine Investition von 6000€ erhalten Sie eine Gewinnbeteiligung von 10%.<br>Die monatlichen Nettoeinnahmenbetragen 8985,6€. Ihre Gewinnbeteiligung wird monatlich, quartalweise oder jährlich ausgeschüttet.<br>Dabei wird eine Gebühr von 3,28% für Verwaltung und Service abgezogen.</i>
+    </p>
+</div>
+
+<!-- Footer Section -->
+<footer class="footer text-white text-center py-3">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <h5><b>Unternehmensinfo</b></h5>
+                <p>
+                    EraVend GmbH & Co. KG<br>
+                    Guldenstr. 9, 86343 Königsbrunn<br>
+                </p>
+            </div>
+            <div class="col-md-4">
+                <h5><b>Konkat</b></h5>
+                <p>
+                    Telefon: +49 821 20969113<br>
+                    E-Mail: <a class="email" href="mailto:info@eravend.com" class="text-white">info@derpizzamat.de</a>
+                </p>
+            </div>
+            <div class="col-md-4">
+                <h5><b>Folgen Sie uns</b></h5>
+                <div class="social-media4">
+                    <a href="https://m.facebook.com/profile.php?id=100093631576818&mibextid=LQQJ4d" target="_blank">Facebook</a>
+                    <a href="https://youtube.com/@derpizzamat" target="_blank">Youtube</a><br>
+                    <a href="https://www.instagram.com/derpizzamat?igsh=MWt3bHdzdDVtMnhoZA==" target="_blank">Instagram</a>
+                    <a href="https://www.linkedin.com/company/eravend-gmbh-co-kg" target="_blank">LinkedIn</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="copy">
+        <p class="mt-3">&copy; 2024 Der Pizzamat. Alle Rechte vorbehalten.</p>
+    </div>
+    <div>
+        <p class="author">Devoloped by Farhan.</p>
+    </div>
+</footer>
+
+<!-- Floating Cookie Icon -->
+<div id="cookie-icon" class="cookie-icon">
+    <img src="pic/cookie.png" alt="Cookie Icon" class="cookie-icon-img">
+</div>
+
+<!-- Scripts -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    function calculateEarnings() {
+        const investmentAmount = parseFloat(document.getElementById("investmentAmount").value);
+        const distributionFrequency = document.getElementById("distributionFrequency").value;
+
+        if (isNaN(investmentAmount) || investmentAmount < 6000) {
+            alert("Der Mindestinvestitionsbetrag beträgt 6000€.");
+            return;
+        }
+
+        const monthlyNetIncome = 8985.6;
+        const serviceChargePercentage = 3.28;
+        const profitSharePercentage = (1 / 600) * investmentAmount;
+
+        const grossEarningsPerMonth = monthlyNetIncome * ((profitSharePercentage - serviceChargePercentage) / 100);
+
+        let netEarnings;
+        switch (distributionFrequency) {
+            case "monthly":
+                netEarnings = grossEarningsPerMonth;
+                break;
+            case "quarterly":
+                netEarnings = grossEarningsPerMonth * 3;
+                break;
+            case "yearly":
+                netEarnings = grossEarningsPerMonth * 12;
+                break;
+            default:
+                alert("Ungültige Auszahlungsfrequenz.");
+                return;
+        }
+
+        const yearlyNetEarnings = grossEarningsPerMonth * 12;
+
+        // Redirect to results.html with calculated values as URL parameters
+        window.location.href = `results.html?investmentAmount=${investmentAmount}&distributionFrequency=${distributionFrequency}&grossEarnings=${grossEarningsPerMonth.toFixed(2)}&profitShare=${profitSharePercentage.toFixed(2)}&netEarnings=${netEarnings.toFixed(2)}`;
+    }
+
+    document.getElementById('cookie-icon').addEventListener('click', function() {
+        document.getElementById('cookie-consent-popup').style.display = 'block';
+        document.getElementById('main-content').classList.add('blur'); // Add blur class to blur main content
+    });
+
+    function handleCookieConsent(accepted) {
+        if (accepted) {
+            // Set cookie consent accepted
+        } else {
+            // Set cookie consent declined
+        }
+        document.getElementById('cookie-consent-popup').style.display = 'none';
+        document.getElementById('main-content').classList.remove('blur'); // Remove blur class
+    }
+
+    document.getElementById('acceptBtn').addEventListener('click', function() {
+        handleCookieConsent(true);
+    });
+
+    document.getElementById('declineBtn').addEventListener('click', function() {
+        handleCookieConsent(false);
+    });
+</script>
+</body>
+</html>
+
